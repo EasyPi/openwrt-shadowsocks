@@ -1,0 +1,25 @@
+sudo: required
+dist: trusty
+language: generic
+services:
+- docker
+env:
+  global:
+  - IMG=easypi/openwrt
+  matrix:
+  - TAG=bcm2708
+  - TAG=bcm2709
+  - TAG=bcm2710
+script:
+- docker version
+- docker pull $IMG:$TAG
+- docker run --rm -u openwrt -w /home/openwrt/sdk -v $PWD:/tmp $IMG:$TAG /tmp/build.sh
+deploy:
+  provider: releases
+  api_key:
+    secure: WwaXGtaGBPno5Sc5sVfeO5iqfUuw9jH6I0wwwRKtgdiQ+253s/FrBQ4bnxAogYqoRPLeV6EA4o2AzKsjns1FvkTpwiB5qxGY+q34H97XrsPZK640NhvSDxe3mjtlKADCJo2diIcphpt+gGapiyeMDcS3kJobZzCi0uf8K8czuqPlexowPBO1EsiVrDWOM+FtnDJQCb0Cbp08LgAcfWUdMK3OixxLf6ZQ8ARbqd5uX8gxAR+uw51H5KrXP958vMxbPacW2UWqFaXXRng7kQ02SEdoSOY9Cw3W4y4whEqEjzWMow+6C7YSs8/2nIa0YOXBo9KuY2BroTqr2zMuUNSQD8f/3OzKGXT3HdeCOgnlTcOroSugDKi9AH8nIKGibdcWVINWOok5/soBnnLdrvuBfzX2jQgapjdYfQTCxgeGIm/AbUFgDhCA9VxUznC8T9hsAB08ad8WsDf5yHj0+RGwDJGBLxzVt87qw9jDEuwX9QNoLUiIpp8q1MsM8xKIyvWhtbODOkKmXAfmhEAD0L+uXpha1e48WAQ13swSVQPskgxYYHJap3OyXg6dOolEgoDt+qvQcRe5LWrGlReMSpFI3rWOaRHYZ0+wt909eI4m7vvpOwdLQICsPg87a60bK6vr31rUz7FAksr7oA4iZGiifHvb+avEwFkDf1irYjGmYDg=
+  file_glob: true
+  file: shadowsocks*.ipk
+  skip_cleanup: true
+  on:
+    tags: true

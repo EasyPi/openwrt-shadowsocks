@@ -1,3 +1,5 @@
+:warning: 请阅读 http://openwrt-dist.sourceforge.net/ :warning:
+
 Shadowsocks-libev for OpenWrt
 ===
 
